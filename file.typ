@@ -2,7 +2,7 @@
 
 
 #set text(
-  font: "PingFang SC"
+  font: "Songti SC"
 )
 
 // #show "nklogo": name => box[
@@ -10,7 +10,7 @@
 // ]
 
 #show: slides.with(
-    authors: "",
+    authors: "test",//better not type your name here.
     short-authors: "M. Seasame",
     title: "三权分立的CKM矩阵",
     subtitle: "三权分立的定量研究",
@@ -21,7 +21,6 @@
     usage: "开题答辩",
     color: rgb("#711A5F"), 
     ),
-    // theme:bipartite-theme()
 )
 
 
