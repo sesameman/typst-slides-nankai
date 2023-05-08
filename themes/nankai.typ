@@ -1,6 +1,7 @@
 // =========================================
 // Nankai University theme for Typst slides.
 // Made By SesameMan.
+// https://github.com/sesameman/typst-slides-nankai
 // =========================================
 
 #import "./slides.typ": *
