@@ -13,9 +13,11 @@
     color: rgb("#711A5F"), 
     biglogo: "nk-image/nankai.png", 
     watermark: "nk-image/nankai-10.png", 
-    logo: "nk-image/nankai-white.png") = data => {
+    logo: "nk-image/nankai-white.png",
+    nkutext: "nk-image/nku-text.png",
+    ) = data => {
     // let nklogo = box[
-    //     #box(image(biglogo, width: 0.5em))
+    //     #box(image(biglogo, width: 5em))
     // ]
     let white-nklogo = box[
         #box(image(logo, width: .8em))
@@ -24,37 +26,55 @@
     //     #box(image(watermark, width: 1cm))
     // ]
     let title-slide(slide-info, bodies) = {
-        if bodies.len() != 0 {
-            panic("title slide of default theme does not support any bodies")
-        }
      	place(dx: 50%,
         dy: -13%,
         image(watermark, height: 510pt)
         )
-        
+        place(dx: 0.4em+80pt+0.4em,
+        dy: 0.4em,
+        image(nkutext, height: 80pt)
+        )
+        place(dx: 0.4em,
+        dy: 0.4em,
+        image(biglogo, height: 80pt)
+        )
+        v(2em)
         align(center + horizon)[
             #block(
-                stroke: ( y: 1mm + black ),
+                stroke: (y: 1mm + black),
                 inset: 1em,
                 breakable: false,
                 [
-                    #text(1.3em)[*#data.title*] \
+                    #box()[#text(1.3em)[*#data.title*] \
                     #{
                         if data.subtitle != none {
                             parbreak()
                             text(.9em)[#data.subtitle]
                         }
                     }
+                    ]
                 ]
             )
-            #set text(size: .8em)
-            #grid(
+            #h(1fr)
+            #set text(size: 1em)
+            #if data.authors = "" {
+                grid(
                 columns: (1fr,) * calc.min(data.authors.len(), 3),
                 column-gutter: 1em,
                 row-gutter: 1em,
                 ..data.authors
             )
+            } else {
+                test
+            }
             #v(1em)
+            #if bodies.len() > 1 {
+                panic("title slide of default theme does not support too many bodies")
+            } else if bodies.len() == 1 {
+                let body = bodies.first()
+                text(size: 1em)[#body]
+            }
+            #parbreak()
             #data.date
         ]
     }
@@ -73,7 +93,7 @@
             footer: ( top: border )
         )
         block(
-            stroke: strokes.at(position),
+            stroke: none,
             width: 100%,
             height: 1.1em,
             fill: color,
@@ -119,7 +139,7 @@
             #data.short-authors #h(4em)
             #mail #h(4em)
             #college #h(1fr)
-            #logical-slide.display() #h(1em)
+            #text(1.5em)[#logical-slide.display()] #h(1em)
         ]
     }
 
@@ -128,12 +148,20 @@
             panic("wake up variant of default theme only supports one body per slide")
         }
         let body = bodies.first()
-
+        v(0em)
+        // block(
+        //     width: 100%, inset: (x: 2em), breakable: false, outset: 0em,
+        //     text(size: 1.5em, fill: white, {v(1fr); body; v(1fr);})
+        // )
         block(
-            width: 100%, height: 100%, inset: 2em, breakable: false, outset: 0em,
+            width: 100%, height: 100%-1.1em,inset: 2em, breakable: false, outset: 0em,
             fill: color,
             text(size: 1.5em, fill: white, {v(1fr); body; v(1fr);})
         )
+        v(1fr)
+        decoration("footer")[
+            #h(1fr)#text(1.5em)[#logical-slide.display()] #h(1em)
+        ]
     }
 
     (
